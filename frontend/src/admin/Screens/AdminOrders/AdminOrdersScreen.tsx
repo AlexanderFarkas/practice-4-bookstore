@@ -41,6 +41,7 @@ const AdminOrdersScreenImpl: React.FC<IProps> = observer((props) => {
           <TableRow>
             <TableHead>Название</TableHead>
             <TableHead>Покупатель</TableHead>
+            <TableHead>Цена (руб.)</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -49,6 +50,7 @@ const AdminOrdersScreenImpl: React.FC<IProps> = observer((props) => {
             <TableRow key={order.id}>
               <TableCell className="font-medium">{order.book.title}</TableCell>
               <TableCell>{order.customer.username}</TableCell>
+              <TableCell>{order.price}</TableCell>
               <TableCell className={"flex flex-row justify-end"}>
                 <Button
                   disabled={vm.isCompleting}
