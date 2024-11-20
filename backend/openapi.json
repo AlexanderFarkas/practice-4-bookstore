@@ -1,0 +1,1321 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/auth/me": {
+      "get": {
+        "summary": "Get Me",
+        "operationId": "get_me_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register",
+        "operationId": "register_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCustomerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "login_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginCustomerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/": {
+      "get": {
+        "summary": "Get All",
+        "operationId": "get_all_books__get",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Author"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "year_published",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year Published"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerBookDTO"
+                  },
+                  "title": "Response Get All Books  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/my_library": {
+      "get": {
+        "summary": "Get Library",
+        "operationId": "get_library_books_my_library_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BookInstanceDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Get Library Books My Library Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/books/expiring_soon": {
+      "get": {
+        "summary": "Get Expiring Soon",
+        "operationId": "get_expiring_soon_books_expiring_soon_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BookInstanceDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Get Expiring Soon Books Expiring Soon Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/books/{book_id}": {
+      "get": {
+        "summary": "Get By Id",
+        "operationId": "get_by_id_books__book_id__get",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Book Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerBookDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/{book_id}/purchase": {
+      "post": {
+        "summary": "Purchase Book",
+        "operationId": "purchase_book_books__book_id__purchase_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Book Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PurchaseBookDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerOrderDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/{book_id}/active_instance": {
+      "get": {
+        "summary": "Get Active Instance",
+        "operationId": "get_active_instance_books__book_id__active_instance_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Book Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BookInstanceDTO"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get Active Instance Books  Book Id  Active Instance Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/": {
+      "get": {
+        "summary": "Get All",
+        "operationId": "get_all_orders__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerOrderDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Orders  Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/admin/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "login_admin_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginAdminDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/books/": {
+      "post": {
+        "summary": "Create Book",
+        "operationId": "create_book_admin_books__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminBookDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All",
+        "operationId": "get_all_admin_books__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "author",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Author"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "year_published",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year Published"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminBookDTO"
+                  },
+                  "title": "Response Get All Admin Books  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/books/{book_id}": {
+      "put": {
+        "summary": "Update Book",
+        "operationId": "update_book_admin_books__book_id__put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Book Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminBookDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get By Id",
+        "operationId": "get_by_id_admin_books__book_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Book Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminBookDTO"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/orders/{order_id}/complete": {
+      "post": {
+        "summary": "Complete Order",
+        "operationId": "complete_order_admin_orders__order_id__complete_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Order Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/orders/": {
+      "get": {
+        "summary": "Get Incomplete Orders",
+        "operationId": "get_incomplete_orders_admin_orders__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AdminOrderDTO"
+                  },
+                  "type": "array",
+                  "title": "Response Get Incomplete Orders Admin Orders  Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccessTokenDTO": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "AccessTokenDTO"
+      },
+      "AdminBookDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "author": {
+            "type": "string",
+            "title": "Author"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "purchase_price": {
+            "type": "integer",
+            "title": "Purchase Price"
+          },
+          "two_weeks_rent_price": {
+            "type": "integer",
+            "title": "Two Weeks Rent Price"
+          },
+          "month_rent_price": {
+            "type": "integer",
+            "title": "Month Rent Price"
+          },
+          "three_month_rent_price": {
+            "type": "integer",
+            "title": "Three Month Rent Price"
+          },
+          "year_published": {
+            "type": "integer",
+            "title": "Year Published"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "is_hidden": {
+            "type": "boolean",
+            "title": "Is Hidden"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "author",
+          "category",
+          "purchase_price",
+          "two_weeks_rent_price",
+          "month_rent_price",
+          "three_month_rent_price",
+          "year_published",
+          "text",
+          "is_hidden"
+        ],
+        "title": "AdminBookDTO"
+      },
+      "AdminOrderDTO": {
+        "properties": {
+          "book_instance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BookInstanceDTO"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerDTO"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "price": {
+            "type": "integer",
+            "title": "Price"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "purchase_type": {
+            "$ref": "#/components/schemas/PurchaseType"
+          },
+          "book_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Book Id"
+          },
+          "book_instance_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Book Instance Id"
+          },
+          "book": {
+            "$ref": "#/components/schemas/AdminBookDTO"
+          }
+        },
+        "type": "object",
+        "required": [
+          "book_instance",
+          "customer",
+          "id",
+          "customer_id",
+          "price",
+          "status",
+          "purchase_type",
+          "book_id",
+          "book_instance_id",
+          "book"
+        ],
+        "title": "AdminOrderDTO"
+      },
+      "BookInstanceDTO": {
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "expiration_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiration Date"
+          },
+          "book_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Book Id"
+          },
+          "book": {
+            "$ref": "#/components/schemas/CustomerBookInInstanceDTO"
+          }
+        },
+        "type": "object",
+        "required": [
+          "customer_id",
+          "expiration_date",
+          "book_id",
+          "book"
+        ],
+        "title": "BookInstanceDTO"
+      },
+      "CreateBookDTO": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "author": {
+            "type": "string",
+            "title": "Author"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "purchase_price": {
+            "type": "integer",
+            "title": "Purchase Price"
+          },
+          "two_weeks_rent_price": {
+            "type": "integer",
+            "title": "Two Weeks Rent Price"
+          },
+          "month_rent_price": {
+            "type": "integer",
+            "title": "Month Rent Price"
+          },
+          "three_month_rent_price": {
+            "type": "integer",
+            "title": "Three Month Rent Price"
+          },
+          "year_published": {
+            "type": "integer",
+            "title": "Year Published"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "is_hidden": {
+            "type": "boolean",
+            "title": "Is Hidden"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "author",
+          "category",
+          "purchase_price",
+          "two_weeks_rent_price",
+          "month_rent_price",
+          "three_month_rent_price",
+          "year_published",
+          "text",
+          "is_hidden"
+        ],
+        "title": "CreateBookDTO"
+      },
+      "CustomerBookDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "author": {
+            "type": "string",
+            "title": "Author"
+          },
+          "purchase_price": {
+            "type": "integer",
+            "title": "Purchase Price"
+          },
+          "two_weeks_rent_price": {
+            "type": "integer",
+            "title": "Two Weeks Rent Price"
+          },
+          "month_rent_price": {
+            "type": "integer",
+            "title": "Month Rent Price"
+          },
+          "three_month_rent_price": {
+            "type": "integer",
+            "title": "Three Month Rent Price"
+          },
+          "year_published": {
+            "type": "integer",
+            "title": "Year Published"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "category",
+          "author",
+          "purchase_price",
+          "two_weeks_rent_price",
+          "month_rent_price",
+          "three_month_rent_price",
+          "year_published"
+        ],
+        "title": "CustomerBookDTO"
+      },
+      "CustomerBookInInstanceDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "author": {
+            "type": "string",
+            "title": "Author"
+          },
+          "purchase_price": {
+            "type": "integer",
+            "title": "Purchase Price"
+          },
+          "two_weeks_rent_price": {
+            "type": "integer",
+            "title": "Two Weeks Rent Price"
+          },
+          "month_rent_price": {
+            "type": "integer",
+            "title": "Month Rent Price"
+          },
+          "three_month_rent_price": {
+            "type": "integer",
+            "title": "Three Month Rent Price"
+          },
+          "year_published": {
+            "type": "integer",
+            "title": "Year Published"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "category",
+          "author",
+          "purchase_price",
+          "two_weeks_rent_price",
+          "month_rent_price",
+          "three_month_rent_price",
+          "year_published",
+          "text"
+        ],
+        "title": "CustomerBookInInstanceDTO"
+      },
+      "CustomerDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "username"
+        ],
+        "title": "CustomerDTO"
+      },
+      "CustomerOrderDTO": {
+        "properties": {
+          "book_instance": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BookInstanceDTO"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerDTO"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "price": {
+            "type": "integer",
+            "title": "Price"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "purchase_type": {
+            "$ref": "#/components/schemas/PurchaseType"
+          },
+          "book_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Book Id"
+          },
+          "book_instance_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Book Instance Id"
+          },
+          "book": {
+            "$ref": "#/components/schemas/CustomerBookDTO"
+          }
+        },
+        "type": "object",
+        "required": [
+          "book_instance",
+          "customer",
+          "id",
+          "customer_id",
+          "price",
+          "status",
+          "purchase_type",
+          "book_id",
+          "book_instance_id",
+          "book"
+        ],
+        "title": "CustomerOrderDTO"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginAdminDTO": {
+        "properties": {
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password",
+            "writeOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "password"
+        ],
+        "title": "LoginAdminDTO"
+      },
+      "LoginCustomerDTO": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password",
+            "writeOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "LoginCustomerDTO"
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": [
+          "awaiting_payment",
+          "completed",
+          "cancelled"
+        ],
+        "title": "OrderStatus"
+      },
+      "PurchaseBookDTO": {
+        "properties": {
+          "purchase_type": {
+            "$ref": "#/components/schemas/PurchaseType"
+          }
+        },
+        "type": "object",
+        "required": [
+          "purchase_type"
+        ],
+        "title": "PurchaseBookDTO"
+      },
+      "PurchaseType": {
+        "type": "string",
+        "enum": [
+          "forever",
+          "two_weeks",
+          "month",
+          "three_months"
+        ],
+        "title": "PurchaseType"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
